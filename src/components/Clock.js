@@ -37,18 +37,16 @@ class Clock extends Component {
     })
   }
 
-  checkAlarmTime() {
-    const alarmTime = this.refs.time.value + ":00";
-    const currentTime = this.state.time;
+  getCodeTime() {
+    const timeTime = this.refs.time.value;
+    console.log(timeTime)
+  }
 
-    if(alarmTime === currentTime) return true;
-  };
-
-  checkAlarmDay() {
-    const alarmDay = this.refs.day.value;
-    const currentDay = new Date().getDate().toString();
-
-    if(alarmDay === currentDay) return true;
+  getSecondsTime(seconds) {
+    let m = Math.floor(seconds % 3600 / 60);
+    let s = Math.floor(seconds % 3600 % 60);
+    let timeFormated = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+    return timeFormated;
   }
 
   render() {
@@ -60,7 +58,7 @@ class Clock extends Component {
         <h1>{this.state.time}</h1>
         
         <div>
-          <button>ON</button>
+          <button onClick={ this.getCodeTime.bind(this) }>ON</button>
           <button >OFF</button>
         </div>
         
