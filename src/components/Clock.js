@@ -6,22 +6,53 @@ class Clock extends Component {
     super(props);
     this.state = {
       currentTime: '',
-      codeTime: ''
+      codeTime: '',
+      timeLeft: ''
     };
   }
 
   componentDidMount() {
     setInterval(() => {
       this.setCurrentTime();
+      this.cronometer();
       this.checkAlarmClock();
     } ,1000);
   }
 
+  cronometer() {
+    const currentTime = this.state.currentTime;
+    const codeTime = this.state.codeTime;
+
+    if (codeTime !== '') {
+
+      const codeTimeSeconds = this.formatToSeconds(codeTime);
+      const currentTimeSeconds = this.formatToSeconds(currentTime);
+      const timeLeft = codeTimeSeconds - currentTimeSeconds;
+
+      this.setState({
+        timeLeft: this.formatToString(timeLeft)
+      })
+
+    }
+
+  }
+
+  formatToSeconds(time) {
+    const array = time.split(':');
+    const timeSeconds = (+array[0]) * 60 * 60 + (+array[1]) * 60 + (+array[2]);
+    return timeSeconds;
+  }
+
+  formatToString(seconds) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor(seconds % 3600 / 60);
+    const s = Math.floor(seconds % 3600 % 60);
+    const timeString = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+    return timeString;
+  }
+
   checkAlarmClock() {
-    console.log('currentTime: ' + this.state.currentTime);
-    console.log('codeTime: ' + this.state.codeTime);
     const isTimeToCode = this.state.currentTime === this.state.codeTime;
-    console.log('result: ' + isTimeToCode);
 
     if(isTimeToCode) {
       this.alarm();
@@ -50,7 +81,7 @@ class Clock extends Component {
       <div>
 
         <p>Wake-up for code in</p>
-        <h1>{this.state.currentTime}</h1>
+        <h1>{this.state.timeLeft}</h1>
 
         <div>
           <button>ON</button>
