@@ -1,52 +1,47 @@
 import React, { Component } from 'react';
 
 class Clock extends Component {
+
   constructor(props) {
-        super(props);
-        this.state = {
-          time: new Date().toLocaleTimeString(),
-          currentDay: ''
-        };
-    }
-
-    componentDidMount() {
-    this.formatDate();
-    this.setCurrentTime();
-
-    setInterval(() => this.setCurrentTime() , 1000);
+    super(props);
+    this.state = {
+      currentTime: '',
+      codeTime: ''
+    };
   }
 
-  formatDate() {
-    const date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth();
-    let year = date.getFullYear();
+  componentDidMount() {
+    setInterval(() => {
+      this.setCurrentTime();
+      this.checkAlarmClock();
+    } ,1000);
+  }
 
-    if(day < 10) day ='0'+ day;
+  checkAlarmClock() {
+    console.log('currentTime: ' + this.state.currentTime);
+    console.log('codeTime: ' + this.state.codeTime);
+    const isTimeToCode = this.state.currentTime === this.state.codeTime;
+    console.log('result: ' + isTimeToCode);
 
-    if(month < 10) month ='0'+ month;
-
-    const today =(`${day}/${month}/${year}`);
-
-    this.setState({ currentDay: today });
+    if(isTimeToCode) {
+      this.alarm();
+    }
   }
 
   setCurrentTime() {
     this.setState({
-      time: new Date().toLocaleTimeString()
+      currentTime: new Date().toLocaleTimeString()
     })
   }
 
-  getCodeTime() {
-    const timeTime = this.refs.time.value;
-    console.log(timeTime)
+  setCodeTime(event) {
+    this.setState({
+      codeTime: event.target.value + ':00'
+    })
   }
 
-  getSecondsTime(seconds) {
-    let m = Math.floor(seconds % 3600 / 60);
-    let s = Math.floor(seconds % 3600 % 60);
-    let timeFormated = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
-    return timeFormated;
+  alarm() {
+    console.log('acorda!')
   }
 
   render() {
@@ -55,31 +50,23 @@ class Clock extends Component {
       <div>
 
         <p>Wake-up for code in</p>
-        <h1>{this.state.time}</h1>
-        
+        <h1>{this.state.currentTime}</h1>
+
         <div>
-          <button onClick={ this.getCodeTime.bind(this) }>ON</button>
-          <button >OFF</button>
+          <button>ON</button>
+          <button>OFF</button>
         </div>
-        
-        <div>
 
           <div>
             <p>Code Time</p>
-            <input type="time" ref="time"/>
-            <input type="date" ref="day"/>
-          </div>
-         
-          <div>
-            <p>Current Day/ Time</p>
-            <div>
-            <time>{ this.state.time }</time>
-            </div>
-            <time>{ this.state.currentDay }</time>
+            <input type="time" onChange={this.setCodeTime.bind(this)}/>
           </div>
 
-        </div>
-      
+          <div>
+            <p>Current Day/ Time</p>
+            <time>{ this.state.currentTime }</time>
+          </div>
+
       </div>
     );
   }
