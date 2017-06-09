@@ -18,9 +18,93 @@ class Clock extends Component {
       this.setCurrentTime();
       this.cronometer();
       this.checkAlarmClock();
+      this.checkCodeDay(this.state.codeDay);
     } ,1000);
 
     this.setCurrentDay();
+  }
+
+  setCurrentTime() {
+    this.setState({
+      currentTime: new Date().toLocaleTimeString()
+    })
+  }
+
+  formatDate(date) {
+    const [year, month, day] = date.split("-");
+    const dateFormated = `${year}-${(month < 10 ? "0" : "") + month}-${(day < 10 ? "0" : "") + day}`;
+    return dateFormated;
+  }
+
+  checkCodeDay(codeDay) {
+    const [year , month, day] = codeDay.split("-");
+    const [y, m, d] = this.state.currentDay.split("-");
+    const alarmDay = parseInt(day, 10);
+    const currentDay = parseInt(d, 10);
+    const alarmMonth = parseInt(month, 10);
+    const currentMonth = parseInt(m, 10);
+    const alarmYear = parseInt(year, 10);
+    const currentYear = parseInt(y, 10);
+
+    const subDay = alarmDay - currentDay;
+    const subMonth = alarmMonth - currentMonth;
+    const subYear = alarmYear - currentYear;
+
+    const currentTimeSeconds = this.formatToSeconds(this.state.currentTime);
+    const secondsDay = 86400;
+    const leftDay = secondsDay - currentTimeSeconds;
+
+    const secondsCodeDay = this.formatToSeconds(this.state.codeTime);
+
+    const isTomorrow = subDay === 1;
+
+    if(isTomorrow) {
+      const timeLeft = leftDay + secondsCodeDay;
+      this.setState({ timeLeft: this.formatToString(timeLeft) })
+      return;
+    }
+
+    const moreThanTwoDays = subDay > 1;
+
+    if(moreThanTwoDays) {
+      const timeLeft = leftDay + secondsCodeDay;
+      const timeCode = timeLeft + ((subDay -1) * secondsDay);
+      this.setState({ timeLeft: this.formatToString(timeCode) })
+      return;
+    }
+  }
+
+  setCurrentDay() {
+    const today = new Date().toLocaleDateString();
+    this.setState({
+      currentDay: this.formatDate(today)
+    })
+  }
+
+  setCodeTime(event) {
+    this.setState({
+      codeTime: event.target.value + ':00'
+    })
+  }
+
+  setCodeDay(event) {
+    this.setState({
+      codeDay: event.target.value
+    })
+  }
+
+  formatToSeconds(time) {
+    const [hour, minute, second] = time.split(':');
+    const timeSeconds = (+hour) * 60 * 60 + (+minute) * 60 + (+second);
+    return timeSeconds;
+  }
+
+  formatToString(seconds) {
+    const hour = Math.floor(seconds / 3600);
+    const minute = Math.floor(seconds % 3600 / 60);
+    const second = Math.floor(seconds % 3600 % 60);
+    const timeString = `${(hour < 10 ? "0" : "") + hour}:${(minute < 10 ? "0" : "") + minute}:${(second < 10 ? "0" : "") + second}`;
+    return timeString;
   }
 
   cronometer() {
@@ -41,20 +125,6 @@ class Clock extends Component {
 
   }
 
-  formatToSeconds(time) {
-    const [hour, minute, second] = time.split(':');
-    const timeSeconds = (+hour) * 60 * 60 + (+minute) * 60 + (+second);
-    return timeSeconds;
-  }
-
-  formatToString(seconds) {
-    const hour = Math.floor(seconds / 3600);
-    const minute = Math.floor(seconds % 3600 / 60);
-    const second = Math.floor(seconds % 3600 % 60);
-    const timeString = `${(hour < 10 ? "0" : "") + hour}:${(minute < 10 ? "0" : "") + minute}:${(second < 10 ? "0" : "") + second}`;
-    return timeString;
-  }
-
   checkAlarmClock() {
     const isTimeToCode = this.state.currentTime === this.state.codeTime;
     const isDayToCode = this.state.currentDay === this.state.codeDay;
@@ -62,38 +132,7 @@ class Clock extends Component {
     if(isDayToCode && isTimeToCode) {
       this.alarm();
     }
-  }
 
-  setCurrentTime() {
-    this.setState({
-      currentTime: new Date().toLocaleTimeString()
-    })
-  }
-
-  formatDate(date) {
-    const [year, month, day] = date.split("-");
-    const dateFormated = `${year}-${(month < 10 ? "0" : "") + month}-${(day < 10 ? "0" : "") + day}`;
-    return dateFormated;
-  }
-
-  setCurrentDay() {
-    const today = new Date().toLocaleDateString();
-    this.setState({
-      currentDay: this.formatDate(today)
-    })
-  }
-
-  setCodeTime(event) {
-    this.setState({
-      codeTime: event.target.value + ':00'
-    })
-  }
-
-  setCodeDay(event) {
-    this.setState({
-      codeDay: event.target.value
-    })
-    console.log(this.state.currentDay == this.state.codeDay);
   }
 
   alarm() {
