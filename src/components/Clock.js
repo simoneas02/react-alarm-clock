@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { formatDate, formatToSeconds, formatToString } from './utils';
 
 class Clock extends Component {
 
@@ -16,7 +17,7 @@ class Clock extends Component {
   componentDidMount() {
     setInterval(() => {
       this.setCurrentTime();
-      this.cronometer();
+      this.chronometer();
       this.checkAlarmClock();
       this.checkCodeDay(this.state.codeDay);
     } ,1000);
@@ -28,12 +29,6 @@ class Clock extends Component {
     this.setState({
       currentTime: new Date().toLocaleTimeString()
     })
-  }
-
-  formatDate(date) {
-    const [year, month, day] = date.split("-");
-    const dateFormated = `${year}-${(month < 10 ? "0" : "") + month}-${(day < 10 ? "0" : "") + day}`;
-    return dateFormated;
   }
 
   checkCodeDay(codeDay) {
@@ -50,17 +45,17 @@ class Clock extends Component {
     const subMonth = alarmMonth - currentMonth;
     const subYear = alarmYear - currentYear;
 
-    const currentTimeSeconds = this.formatToSeconds(this.state.currentTime);
+    const currentTimeSeconds = formatToSeconds(this.state.currentTime);
     const secondsDay = 86400;
     const leftDay = secondsDay - currentTimeSeconds;
 
-    const secondsCodeDay = this.formatToSeconds(this.state.codeTime);
+    const secondsCodeDay = formatToSeconds(this.state.codeTime);
 
     const isTomorrow = subDay === 1;
 
     if(isTomorrow) {
       const timeLeft = leftDay + secondsCodeDay;
-      this.setState({ timeLeft: this.formatToString(timeLeft) })
+      this.setState({ timeLeft: formatToString(timeLeft) })
       return;
     }
 
@@ -69,7 +64,7 @@ class Clock extends Component {
     if(moreThanTwoDays) {
       const timeLeft = leftDay + secondsCodeDay;
       const timeCode = timeLeft + ((subDay -1) * secondsDay);
-      this.setState({ timeLeft: this.formatToString(timeCode) })
+      this.setState({ timeLeft: formatToString(timeCode) })
       return;
     }
   }
@@ -77,7 +72,7 @@ class Clock extends Component {
   setCurrentDay() {
     const today = new Date().toLocaleDateString();
     this.setState({
-      currentDay: this.formatDate(today)
+      currentDay: formatDate(today)
     })
   }
 
@@ -93,32 +88,18 @@ class Clock extends Component {
     })
   }
 
-  formatToSeconds(time) {
-    const [hour, minute, second] = time.split(':');
-    const timeSeconds = (+hour) * 60 * 60 + (+minute) * 60 + (+second);
-    return timeSeconds;
-  }
-
-  formatToString(seconds) {
-    const hour = Math.floor(seconds / 3600);
-    const minute = Math.floor(seconds % 3600 / 60);
-    const second = Math.floor(seconds % 3600 % 60);
-    const timeString = `${(hour < 10 ? "0" : "") + hour}:${(minute < 10 ? "0" : "") + minute}:${(second < 10 ? "0" : "") + second}`;
-    return timeString;
-  }
-
-  cronometer() {
+  chronometer() {
     const currentTime = this.state.currentTime;
     const codeTime = this.state.codeTime;
 
     if (codeTime !== '') {
 
-      const codeTimeSeconds = this.formatToSeconds(codeTime);
-      const currentTimeSeconds = this.formatToSeconds(currentTime);
+      const codeTimeSeconds = formatToSeconds(codeTime);
+      const currentTimeSeconds = formatToSeconds(currentTime);
       const timeLeft = codeTimeSeconds - currentTimeSeconds;
 
       this.setState({
-        timeLeft: this.formatToString(timeLeft)
+        timeLeft: formatToString(timeLeft)
       })
 
     }
