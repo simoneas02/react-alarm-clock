@@ -11,7 +11,8 @@
     "enzyme": "^2.8.2",
     "react-dom": "^15.5.4",
     "react-scripts": "0.9.5",
-    "react-test-renderer": "^15.5.4"
+    "react-test-renderer": "^15.5.4",
+    "sinon": "^2.3.4"
   },
   "scripts": {
     "start": "react-scripts start",
