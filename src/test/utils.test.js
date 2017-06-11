@@ -1,4 +1,4 @@
-import { formatDate, formatToSeconds, formatToString } from '../components/utils';
+import { getObjectDate, formatDate, formatToSeconds, formatToString } from '../components/utils';
 import { expect } from 'chai';
 
 describe('utils', () => {
@@ -21,5 +21,16 @@ describe('utils', () => {
     expect(time).to.equal(expectedResult);
   })
 
+  it('Should return a date like an object', () => {
+    const objDate = getObjectDate('2017-6-11')
+    const expectedResult =
+      {
+        day: 11,
+        month: 6,
+        year: 2017
+      };
+
+    expect(objDate).to.deep.equal(expectedResult);
+  })
 
 })

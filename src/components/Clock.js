@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { formatDate, formatToSeconds, formatToString } from './utils';
+import { getObjectDate, formatDate, formatToSeconds, formatToString } from './utils';
 
 class Clock extends Component {
 
@@ -32,39 +32,41 @@ class Clock extends Component {
   }
 
   checkCodeDay(codeDay) {
-    const [year , month, day] = codeDay.split("-");
-    const [y, m, d] = this.state.currentDay.split("-");
-    const alarmDay = parseInt(day, 10);
-    const currentDay = parseInt(d, 10);
-    const alarmMonth = parseInt(month, 10);
-    const currentMonth = parseInt(m, 10);
-    const alarmYear = parseInt(year, 10);
-    const currentYear = parseInt(y, 10);
+    const isCodeDay = getObjectDate(codeDay);
+    const isCurrentDay = getObjectDate(this.state.currentDay);
 
-    const subDay = alarmDay - currentDay;
-    const subMonth = alarmMonth - currentMonth;
-    const subYear = alarmYear - currentYear;
+    const subMonth = isCodeDay.month - isCurrentDay.month;
+    const currentMonth = subMonth === 0;
 
-    const currentTimeSeconds = formatToSeconds(this.state.currentTime);
-    const secondsDay = 86400;
-    const leftDay = secondsDay - currentTimeSeconds;
+    if(currentMonth) {
+      const subDay = isCodeDay.day - isCurrentDay.day;
+      const dateHasPassed = subDay < 0;
+      //const dateIsToday = subDay === 0;
+      const dateIsTomorrow = subDay === 1;
+      const dateIsMoreThanTwoDays= subDay > 1;
 
-    const secondsCodeDay = formatToSeconds(this.state.codeTime);
+      const currentTimeSeconds = formatToSeconds(this.state.currentTime);
+      const secondsDay = 86400;
+      const leftDay = secondsDay - currentTimeSeconds;
 
-    const isTomorrow = subDay === 1;
+      const secondsCodeDay = formatToSeconds(this.state.codeTime);
 
-    if(isTomorrow) {
-      const timeLeft = leftDay + secondsCodeDay;
-      this.setState({ timeLeft: formatToString(timeLeft) })
-      return;
-    }
+      if(dateHasPassed){
+        return console.log('A data deve ser igual ou maior que a atual')
+      }
 
-    const moreThanTwoDays = subDay > 1;
+      if (dateIsTomorrow) {
+        const timeLeft = leftDay + secondsCodeDay;
+        this.setState({ timeLeft: formatToString(timeLeft) })
+        return;
+      }
 
-    if(moreThanTwoDays) {
-      const timeLeft = leftDay + secondsCodeDay;
-      const timeCode = timeLeft + ((subDay -1) * secondsDay);
-      this.setState({ timeLeft: formatToString(timeCode) })
+      if(dateIsMoreThanTwoDays) {
+        const timeLeft = leftDay + secondsCodeDay;
+        const timeCode = timeLeft + ((subDay -1) * secondsDay);
+        this.setState({ timeLeft: formatToString(timeCode) })
+        return;
+      }
       return;
     }
   }
