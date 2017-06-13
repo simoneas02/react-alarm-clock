@@ -11,17 +11,14 @@ class Chronometer extends Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
-      this.chronometer();
-      if (this.props.codeDay) {
-        this.checkCodeDay();
-      }
-    } ,1000);
+    this.defaultTimeLeft();
+
+    setInterval(() => 
+    { this.chronometer(); }
+    ,1000);
   }
 
-
-
-  checkCodeDay() {
+  chronometer() {
     const isCodeDay = getObjectDate(this.props.codeDay);
     const isCurrentDay = getObjectDate(new Date().toLocaleDateString());
 
@@ -38,60 +35,65 @@ class Chronometer extends Component {
       const currentTimeSeconds = formatToSeconds(new Date().toLocaleTimeString());
       const secondsDay = 86400;
       const leftDay = secondsDay - currentTimeSeconds;
+      const codeTimeSeconds = formatToSeconds(this.props.codeTime);
+      const timeHasPassed = dateIsToday && (codeTimeSeconds - currentTimeSeconds < 0) ;
 
-      const secondsCodeDay = formatToSeconds(this.props.codeTime);
+      if(timeHasPassed) {
+        this.setState({
+          timeLeft: this.defaultTimeLeft
+        })
+      }
 
       if(dateHasPassed) {
-        return console.log('A data deve ser igual ou maior que a atual')
+        this.setState({
+          timeLeft: this.defaultTimeLeft
+        })
       }
 
       if(dateIsToday) {
-        const codeTimeSeconds = formatToSeconds(codeTime);
-        const currentTimeSeconds = formatToSeconds(currentTime);
         const timeLeft = codeTimeSeconds - currentTimeSeconds;
 
-      this.setState({
-        timeLeft: formatToString(timeLeft)
-      })
+        this.setState({
+          timeLeft: formatToString(timeLeft)
+        })
       }
 
       if (dateIsTomorrow) {
-        const timeLeft = leftDay + secondsCodeDay;
-        this.setState({ timeLeft: formatToString(timeLeft) })
+        const timeLeft = leftDay + codeTimeSeconds;
+
+        this.setState({ 
+          timeLeft: formatToString(timeLeft) 
+        })
         return;
       }
 
       if(dateIsMoreThanTwoDays) {
-        const timeLeft = leftDay + secondsCodeDay;
+        const timeLeft = leftDay + codeTimeSeconds;
         const timeCode = timeLeft + ((subDay -1) * secondsDay);
-        this.setState({ timeLeft: formatToString(timeCode) })
+
+        this.setState({ 
+          timeLeft: formatToString(timeCode) 
+        })
         return;
       }
-      return;
+     
     }
   }
 
-  chronometer() {
-    const currentTime = new Date().toLocaleTimeString();
-    const codeTime = this.props.codeTime;
+  defaultTimeLeft () {
+    this.setState({ timeLeft: '00:00:00' })
+  }
 
-    if (codeTime && currentTime) {
+  chronometerOnOff() {
+    const on = this.props.on;
 
-      const codeTimeSeconds = formatToSeconds(codeTime);
-      const currentTimeSeconds = formatToSeconds(currentTime);
-      const timeLeft = codeTimeSeconds - currentTimeSeconds;
-
-      this.setState({
-        timeLeft: formatToString(timeLeft)
-      })
-
+    if(on) {
+      this.setState({ timeLeft: this.state.timeLeft })
+    return;
     } else {
-
-      this.setState({
-        timeLeft: '00:00:00'
-      })
-
+      this.setState({ timeLeft: this.defaultTimeLeft })
     }
+    return;
   }
 
   render() {

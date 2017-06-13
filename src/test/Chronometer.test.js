@@ -10,20 +10,16 @@ describe('<Chronometer />', () => {
   //-----------------------------------------
 
   it('Should return default time left', () => {
-    const clock = sinon.useFakeTimers();
-
     const wrapper = mount(<Chronometer />);
-
-    clock.tick( 1000 );
 
     const timeLeftState = wrapper.state('timeLeft');
 
     expect(timeLeftState).to.equal('00:00:00');
   })
 
-   //-----------------------------------------
+  //-----------------------------------------
 
-  it('Should return chronometer on', () => {
+  it('Should return chronometer on for current day', () => {
     const clock = sinon.useFakeTimers();
 
     const currentDay = new Date().toLocaleDateString();
@@ -42,17 +38,123 @@ describe('<Chronometer />', () => {
 
     const currentTimeSeconds = formatToSeconds(new Date().toLocaleTimeString());
     const codeTimeSeconds = formatToSeconds('23:59:59');
-    const leftTime = codeTimeSeconds - currentTiime;
+    const leftTime = formatToString(codeTimeSeconds - currentTimeSeconds);
+
+    expect(timeLeftState).to.equal(leftTime);
+  })
+
+  //-----------------------------------------
+it('Should return chronometer on for next day', () => {
+    const clock = sinon.useFakeTimers();
+
+    const currentDay = new Date().toLocaleDateString();
+    const objCurrentDay = getObjectDate(currentDay);
+    const tomorrow = `${objCurrentDay.year}-${objCurrentDay.month}-${objCurrentDay.day + 1}`;
+
+    const wrapper = mount(
+      <Chronometer 
+        on= { true }
+        codeTime = '23:59:59'
+        codeDay = { tomorrow }
+        />
+      );
+
+    clock.tick( 1000 );
+
+    const timeLeftState = wrapper.state('timeLeft');
+
+    const currentTimeSeconds = formatToSeconds(new Date().toLocaleTimeString());
+    const secondsDay = 86400;
+    const leftDay = secondsDay - currentTimeSeconds;
+    const codeTime = formatToSeconds('23:59:59');
+
+    const leftTime = formatToString(codeTime + leftDay);
 
     expect(timeLeftState).to.equal(leftTime);
   })
 
   //-----------------------------------------
 
-  it('Should return chronometer off', () => {
+  it('Should return chronometer on for date more than two days', () => {
     const clock = sinon.useFakeTimers();
 
     const currentDay = new Date().toLocaleDateString();
+    const objCurrentDay = getObjectDate(currentDay);
+    const futureDay = `${objCurrentDay.year}-${objCurrentDay.month}-${objCurrentDay.day + 3}`;
+
+    const wrapper = mount(
+      <Chronometer 
+        on= { true }
+        codeTime = '23:59:59'
+        codeDay = { futureDay }
+        />
+      );
+
+    clock.tick( 1000 );
+
+    const timeLeftState = wrapper.state('timeLeft');
+
+    const currentTimeSeconds = formatToSeconds(new Date().toLocaleTimeString());
+    const secondsDay = 86400;
+    const leftDay = secondsDay - currentTimeSeconds;
+    const codeTime = formatToSeconds('23:59:59');
+    const leftTime = formatToString(leftDay + (secondsDay * 2) + codeTime);
+
+    expect(timeLeftState).to.equal(leftTime);
+  })
+
+  //-----------------------------------------
+
+  it('Should return chronometer off for current day', () => {
+    const clock = sinon.useFakeTimers();
+
+    const currentDay = new Date().toLocaleDateString();
+
+    const wrapper = mount(
+      <Chronometer 
+        on= { false }
+        codeTime = '23:59:59'
+        codeDay = { currentDay }
+        />
+      );
+
+    clock.tick( 1000 );
+
+    const timeLeftState = wrapper.state('timeLeft');
+
+    expect(timeLeftState).to.equal('00:00:00');
+  })
+  //-----------------------------------------TODO
+
+  it('Should return chronometer off for next day', () => {
+    const clock = sinon.useFakeTimers();
+
+    const currentDay = new Date().toLocaleDateString();
+    const objCurrentDay = getObjectDate(currentDay);
+    const tomorrow = `${objCurrentDay.year}-${objCurrentDay.month}-${objCurrentDay.day + 1}`;
+
+    const wrapper = mount(
+      <Chronometer 
+        on= { false }
+        codeTime = '23:59:59'
+        codeDay = { tomorrow }
+        />
+      );
+
+    clock.tick( 1000 );
+
+    const timeLeftState = wrapper.state('timeLeft');
+
+    expect(timeLeftState).to.equal('00:00:00');
+  })
+  //-----------------------------------------TODO
+
+  it('Should return chronometer off for date more than two days', () => {
+    const clock = sinon.useFakeTimers();
+
+    const currentDay = new Date().toLocaleDateString();
+    const objCurrentDay = getObjectDate(currentDay);
+    const futureDay = `${objCurrentDay.year}-${objCurrentDay.month}-${objCurrentDay.day + 3}`;
 
     const wrapper = mount(
       <Chronometer 
@@ -115,9 +217,9 @@ describe('<Chronometer />', () => {
 
     const currentTime = formatToSeconds(new Date().toLocaleTimeString());
     const codeTime = formatToSeconds('23:59:59');
-    const leftTime = codeTme - currentTiime;
+    const leftTime = formatToString(codeTime - currentTime);
     
-    expect(timeLeftState).to.equal(formatToString(leftTime));
+    expect(timeLeftState).to.equal(leftTime);
   })
 
   //-----------------------------------------
@@ -145,9 +247,9 @@ describe('<Chronometer />', () => {
     const leftDay = secondsDay - currentTimeSeconds;
     const codeTime = formatToSeconds('23:59:59');
 
-    const leftTime = codeTime + leftDay;
+    const leftTime = formatToString(codeTime + leftDay);
     
-    expect(timeLeftState).to.equal(formatToString(leftTime));
+    expect(timeLeftState).to.equal(leftTime);
   })
 
   //-----------------------------------------
@@ -174,9 +276,9 @@ describe('<Chronometer />', () => {
     const secondsDay = 86400;
     const leftDay = secondsDay - currentTimeSeconds;
     const codeTime = formatToSeconds('23:59:59');
-    const leftTime = leftDay + (secondsDay * 2) + codeTime;
+    const leftTime = formatToString(leftDay + (secondsDay * 2) + codeTime);
     
-    expect(timeLeftState).to.equal(formatToString(leftTime));
+    expect(timeLeftState).to.equal(leftTime);
   })
 
   //-----------------------------------------
@@ -198,7 +300,7 @@ describe('<Chronometer />', () => {
 
     const currentTimeSeconds = formatToSeconds(new Date().toLocaleTimeString());
     const codeTimeSeconds = formatToSeconds('23:59:59');
-    const timeLeftSeconds = codeDaySeconds - currentTimeSeconds;
+    const timeLeftSeconds = codeTimeSeconds - currentTimeSeconds;
     const timeLeft = formatToString(timeLeftSeconds);
 
     const h1 = <h1>{ timeLeft }</h1>;
@@ -212,7 +314,6 @@ describe('<Chronometer />', () => {
     const clock = sinon.useFakeTimers();
 
     const currentDay = new Date().toLocaleDateString();
-
     const currentTimeSeconds = formatToSeconds(new Date().toLocaleTimeString());
     const codeTimeSeconds = currentTimeSeconds - 60;
     const codeTimeSting = formatToString(codeTimeSeconds);
