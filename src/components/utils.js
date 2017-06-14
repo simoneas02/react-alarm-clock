@@ -20,18 +20,6 @@ export const getObjectDate = (date) => {
   return objectDate;
 }
 
-export const subDate = (codeDate, currentDate) => {
-  const codeDay = disjoinDate(codeDate);
-  const currentDay = disjoinDate(currentDate);
-
-  const subDay = codeDay.day - currentDay.day;
-  const subMonth = codeDay.month - currentDay.month;
-  const subYear = codeDay.year - currentDay.year;
-
-  const resultDate = [subDay, subMonth, subYear];
-  return resultDate;
-}
-
 export const formatToSeconds = (time) => {
   const [hour, minute, second] = time.split(':');
   const timeSeconds = (+hour) * 60 * 60 + (+minute) * 60 + (+second);
