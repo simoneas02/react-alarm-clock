@@ -7,17 +7,21 @@
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
+    "@storybook/cli": "^3.1.6",
     "chai": "^4.0.2",
     "enzyme": "^2.8.2",
     "react-dom": "^15.5.4",
     "react-scripts": "0.9.5",
     "react-test-renderer": "^15.5.4",
-    "sinon": "^2.3.4"
+    "sinon": "^2.3.4",
+    "@kadira/storybook": "^2.21.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   }
 }
