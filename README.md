@@ -20,14 +20,11 @@ $ npm install
 ```sh
 $ npm start
 ```
-## Tasks available
-
-`$ npm start` - Run development mode
 
 ## Contributing
 
 Find on our [issues](https://github.com/simoneas02/react-alarm-clock/issues/) the next steps of the project ;) 
-Want to contribute? [Follow these recommendations](https://https://github.com/simoneas02/react-alarm-clock/issues/blob/master/CONTRIBUTING.md).
+Want to contribute? [Follow these recommendations](https://github.com/simoneas02/react-alarm-clock/issues/blob/master/CONTRIBUTING.md).
 
 ## History
 
@@ -35,4 +32,4 @@ See [Releases](https://github.com/simoneas02/react-alarm-clock/releases) for det
 
 ## License
 
-[MIT License](https://github.com/simoneas02/react-alarm-clock/blob/master/license.md) © [Simone Amorim](https://simoneas02.github.io)
+[MIT License](https://github.com/simoneas02/react-alarm-clock/blob/master/LICENSE.md) © [Simone Amorim](https://simoneas02.github.io)
