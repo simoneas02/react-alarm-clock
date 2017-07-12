@@ -78,9 +78,9 @@ class Clock extends Component {
 
         <p>Wake-up for code in</p>
         <Chronometer
-          on = { this.state.on }
-          codeTime = { this.state.codeTime }
-          codeDay = { this.state.codeDay }
+          on={ this.state.on }
+          codeTime={ this.state.codeTime }
+          codeDay={ this.state.codeDay }
          />
 
         <div>
@@ -90,8 +90,8 @@ class Clock extends Component {
 
           <div>
             <p>Code Time</p>
-            <input type= "time" onChange={ this.setCodeTime.bind(this) }/>
-            <input type= "date" onChange={ this.setCodeDay.bind(this) }/>
+            <input type="time" onChange={ this.setCodeTime.bind(this) }/>
+            <input type="date" onChange={ this.setCodeDay.bind(this) }/>
           </div>
 
           <div>

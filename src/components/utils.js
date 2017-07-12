@@ -1,11 +1,11 @@
 export const formatDate = (date) => {
-  const [year, month, day] = date.split("-");
-  const dateFormated = `${year}-${(month < 10 ? "0" : "") + month}-${(day < 10 ? "0" : "") + day}`;
+  const [year, month, day] = date.split("/");
+  const dateFormated = `${year}/${month}/${(day < 10 ? "0" : "") + day}`;
   return dateFormated;
 }
 
 export const getObjectDate = (date) => {
-  const [year , month, day] = date.split("-");
+  const [year , month, day] = date.split("/");
   const d = parseInt(day, 10);
   const m = parseInt(month, 10);
   const y = parseInt(year, 10);
