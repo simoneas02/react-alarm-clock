@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getObjectDate, formatToSeconds, formatToString } from './utils';
+import { getObjectDate, formatDate, formatToSeconds, formatToString } from './utils';
 
 class Chronometer extends Component {
 
@@ -22,8 +22,9 @@ class Chronometer extends Component {
     const on = this.props.on;
 
     if(on) {
+
       const isCodeDay = getObjectDate(this.props.codeDay);
-      const isCurrentDay = getObjectDate(new Date().toLocaleDateString());
+      const isCurrentDay = getObjectDate(formatDate(new Date().toLocaleDateString()));
 
       const subMonth = isCodeDay.month - isCurrentDay.month;
       const currentMonth = subMonth === 0;

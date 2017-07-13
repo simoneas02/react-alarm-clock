@@ -33,7 +33,7 @@ class Clock extends Component {
   setCurrentDay() {
     const today = new Date().toLocaleDateString();
     this.setState({
-      currentDay: formatDate(today)
+      currentDay: today
     })
   }
 
@@ -44,8 +44,10 @@ class Clock extends Component {
   }
 
   setCodeDay(event) {
+    const day = event.target.value;
+    
     this.setState({
-      codeDay: event.target.value
+      codeDay: day
     })
   }
 

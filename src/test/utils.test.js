@@ -4,8 +4,8 @@ import { expect } from 'chai';
 describe('utils', () => {
 
   it('Should return the formated date', () => {
-    const formatedDate = formatDate('2017/06/9');
-    const expectedResult = '2017/06/09';
+    const formatedDate = formatDate('09/06/2017');
+    const expectedResult = '2017-06-09';
     expect(formatedDate).to.equal(expectedResult);
   })
 
@@ -22,7 +22,7 @@ describe('utils', () => {
   })
 
   it('Should return a date like an object', () => {
-    const objDate = getObjectDate('2017/06/11')
+    const objDate = getObjectDate('2017-6-11')
     const expectedResult =
       {
         day: 11,
