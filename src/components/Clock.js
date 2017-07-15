@@ -11,17 +11,21 @@ class Clock extends Component {
       codeTime: '',
       currentDay: '',
       codeDay: '',
-      on: false
+      on: false,
+      timerId: 0
     };
   }
 
   componentDidMount() {
+    
     setInterval(() => {
-      this.setCurrentTime();
-      this.checkAlarmClock();
-    } ,1000);
+        
+        this.checkAlarmClock()
+        this.setCurrentTime()
 
-    this.setCurrentDay();
+    } ,1000)
+    
+    this.setCurrentDay()
   }
 
   setCurrentTime() {
@@ -38,9 +42,10 @@ class Clock extends Component {
   }
 
   setCodeTime(event) {
-    this.setState({
-      codeTime: event.target.value + ':00'
-    })
+    event.preventDefault();
+    const codeTime = event.target.value + ':00'
+    console.log(codeTime)
+    this.setState({ codeTime: codeTime })
   }
 
   setCodeDay(event) {
@@ -52,10 +57,11 @@ class Clock extends Component {
   }
 
   checkAlarmClock() {
-    const isTimeToCode = this.state.currentTime === this.state.codeTime;
-    const isDayToCode = this.state.currentDay === this.state.codeDay;
+    const isTimeToCode = this.state.currentTime === this.state.codeTime
+    const isDayToCode = formatDate(this.state.currentDay) === this.state.codeDay
 
     if(isDayToCode && isTimeToCode) {
+      this.chronometerOff()
       this.alarm();
     }
 
@@ -70,7 +76,10 @@ class Clock extends Component {
   }
 
   alarm() {
-    console.log('acorda!')
+
+    let playSong = new Audio('assets/EPICA-Cry For The Moon www.myfreemp3.click .mp3');
+    playSong.play();
+
   }
 
   render() {
@@ -94,6 +103,10 @@ class Clock extends Component {
             <p>Code Time</p>
             <input type="time" onChange={ this.setCodeTime.bind(this) }/>
             <input type="date" onChange={ this.setCodeDay.bind(this) }/>
+          </div>
+
+          <div>
+            <p>Code Sound</p>
           </div>
 
           <div>

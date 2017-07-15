@@ -37,7 +37,7 @@ class Chronometer extends Component {
   componentWillReceiveProps(nextProps) {
     const timeLeft = formatToSeconds(this.state.timeLeft) >= 0
 
-    if(nextProps.on && timeLeft) {
+    if(timeLeft && nextProps.on) {
       this.setState({play: true})
     } else {
       this.setState({play: false})
