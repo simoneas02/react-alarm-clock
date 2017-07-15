@@ -19,7 +19,7 @@ describe('<Chronometer />', () => {
 
   //-----------------------------------------
 
-  it('Should return chronometer on for current day', () => {
+  it('Should return chronometer on', () => {
     const clock = sinon.useFakeTimers();
 
     const currentDay = new Date().toLocaleDateString();
@@ -38,7 +38,7 @@ describe('<Chronometer />', () => {
 
     const currentTimeSeconds = formatToSeconds(new Date().toLocaleTimeString());
     const codeTimeSeconds = formatToSeconds('23:59:59');
-    const leftTime = formatToString(codeTimeSeconds - currentTimeSeconds);
+    const leftTime = codeTimeSeconds - currentTiime;
 
     expect(timeLeftState).to.equal(leftTime);
   })
@@ -66,7 +66,7 @@ it('Should return chronometer on for next day', () => {
     const currentTimeSeconds = formatToSeconds(new Date().toLocaleTimeString());
     const secondsDay = 86400;
     const leftDay = secondsDay - currentTimeSeconds;
-    const codeTime = formatToSeconds('23:59:59');
+    const codeTime = formatToSeconds('23:50:00');
 
     const leftTime = formatToString(codeTime + leftDay);
 

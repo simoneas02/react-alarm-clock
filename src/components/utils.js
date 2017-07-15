@@ -36,3 +36,5 @@ export const formatToString = (seconds) => {
   
   return timeString;
 }
+
+export const secondsDay = 86400;
