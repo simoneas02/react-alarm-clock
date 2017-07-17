@@ -129,7 +129,7 @@ class Chronometer extends Component {
 
   render() {
     return (
-      <h1>{this.state.timeLeft}</h1>
+      <h1 className="main__chronometer">{this.state.timeLeft}</h1>
     )
   }
 }

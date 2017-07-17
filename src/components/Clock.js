@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { formatDate } from './utils';
-import Chronometer from './Chronometer';
+import React, { Component } from 'react'
+import { formatDate } from './utils'
+import Chronometer from './Chronometer'
 
 class Clock extends Component {
 
@@ -8,9 +8,9 @@ class Clock extends Component {
     super(props);
     this.state = {
       currentTime: '',
-      codeTime: '',
+      codeTime: 'hh:mm',
       currentDay: '',
-      codeDay: '',
+      codeDay: 'dd/mm/aaaa',
       on: false,
       timerId: 0
     };
@@ -77,7 +77,7 @@ class Clock extends Component {
 
   alarm() {
 
-    let playSong = new Audio('assets/EPICA-Cry For The Moon www.myfreemp3.click .mp3');
+    let playSong = new Audio('assets/songs/EPICA-Cry For The Moon www.myfreemp3.click .mp3');
     playSong.play();
 
   }
@@ -85,35 +85,52 @@ class Clock extends Component {
   render() {
 
     return(
-      <div>
+      <div className= "container">
+        <aside className="aside">
+          <input type="time" onChange={ this.setCodeTime.bind(this) }/>
+          <input type="date" onChange={ this.setCodeDay.bind(this) }/>
+        </aside>
 
-        <p>Wake-up for code in</p>
-        <Chronometer
-          on={ this.state.on }
-          codeTime={ this.state.codeTime }
-          codeDay={ this.state.codeDay }
-         />
+        <header className="header">
+          <img className="header__settings" src="./assets/icons/settings.svg" alt="settings img" />
+          <span className="header__text">Config</span>
+        </header>
 
-        <div>
-          <button onClick={ this.chronometerOn.bind(this) }>ON</button>
-          <button onClick={ this.chronometerOff.bind(this) }>OFF</button>
-        </div>
+        <main className="main">
+          <p className="main__title">Wake-up for code in</p>
+          <Chronometer
+            on={ this.state.on }
+            codeTime={ this.state.codeTime }
+            codeDay={ this.state.codeDay }
+          />
 
-          <div>
-            <p>Code Time</p>
-            <input type="time" onChange={ this.setCodeTime.bind(this) }/>
-            <input type="date" onChange={ this.setCodeDay.bind(this) }/>
+          <div className="button">
+            <button className="button__on-off" onClick={ this.chronometerOn.bind(this) }>on</button>
+            <button className="button__on-off" onClick={ this.chronometerOff.bind(this) }>off</button>
+          </div>
+        </main>
+
+        <footer className="footer">
+          <div className="time">
+            <p className="time__title"> Code Time</p>
+            <time className="time__time">{ this.state.codeTime }</time>
+            <time className="time__date">{ this.state.codeDay }</time>
           </div>
 
-          <div>
-            <p>Code Sound</p>
+          <div className="time">
+            <p className="time__title">Code Sound</p>
+            <select name="select">
+              <option value="0">None</option> 
+              <option value="epica">Epica</option>
+            </select>
           </div>
 
-          <div>
-            <p>Current Day/ Time</p>
-            <time>{ this.state.currentTime }</time>
-            <time>{ this.state.currentDay }</time>
+          <div className="time">
+            <p className="time__title">Current Day/Time</p>
+            <time className="time__time">{ this.state.currentTime }</time>
+            <time className="time__date">{ this.state.currentDay }</time>
           </div>
+        </footer>
 
       </div>
     );
