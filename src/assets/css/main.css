@@ -1,0 +1,45 @@
+.main {
+  width: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.main__title {
+  text-align: center;
+  padding: var(--internal-spacing);
+  font-size: 18px;
+
+  margin: 0 auto;
+}
+
+.main__chronometer {
+  text-align: center;
+  padding: var(--internal-spacing);
+  font-size: 32px;
+  color: var(--primary-color);
+
+  margin: 0;
+}
+
+.button {
+  width: 100%;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button__on-off {
+  font-family: 'Press Start 2P', cursive;
+  color: #baff58;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 5px;
+
+  border: 2px solid var(--primary-color);
+  width: 50px;
+  background: #323232;
+}

@@ -1,0 +1,41 @@
+.menu {
+  padding: 20px;
+  background: var(--secondary-color);
+  padding-top: 30px;
+  
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  transform: translate3d(-250px,0,0);
+}
+
+.menu__link {
+  text-align: center;
+  font-size: 16px;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.menu__label {
+  font-size: 12px;
+  padding: 5px;
+  margin-top: 20px;
+}
+
+.menu__input {
+  font-size: 12px;
+  padding: 2px;
+
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+}
+
+.show-menu {
+  transform: translate3d(250px,0,0);
+}

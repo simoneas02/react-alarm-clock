@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import { formatDate } from './utils'
 import Chronometer from './Chronometer'
+import Heart from './Heart'
+import '../assets/css/container.css'
+import '../assets/css/aside.css'
+import '../assets/css/header.css'
+import '../assets/css/main.css'
+import '../assets/css/footer.css'
 
 class Clock extends Component {
 
@@ -117,7 +123,7 @@ class Clock extends Component {
         <div className="canvas">
 
           <aside className="menu">
-            <a href="#" className="menu__toggle menu__link">Alarm Clock</a>
+            <a href="#" className="menu__toggle menu__link">Alarm Clock ></a>
 
             <label className='menu__label' for='code-time'> Code Time </label>
             <input className='menu__input' type="time" name='code-time' onChange={ this.setCodeTime.bind(this) }/>
@@ -140,7 +146,7 @@ class Clock extends Component {
           </header>
 
           <main className="main">
-            <p className="main__title">Wake-up for code in</p>
+            <p className="main__title">Timeleft for wake-up/code</p>
             <Chronometer
               on={ this.state.on }
               codeTime={ this.state.codeTime }
@@ -156,7 +162,7 @@ class Clock extends Component {
           <footer className="footer">
             <div className='footer__clock'>
               <div className="time">
-                <p className="time__title"> Code Time</p>
+                <p className="time__title">Wake-up</p>
                 <time className="time__time">{ this.state.codeTime }</time>
                 <time className="time__date">{ this.state.codeDay }</time>
               </div>
@@ -172,9 +178,7 @@ class Clock extends Component {
                 <time className="time__date">{ this.state.currentDay }</time>
               </div>
             </div>
-            <div className='footer__heart'>
-              <p>Made with <span className="heart"></span> by <a href='https://simoneas02.github.io/' target="_blank"></a></p>
-            </div>
+            <Heart />
           </footer>
         </div>
       </div>

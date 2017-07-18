@@ -1,0 +1,19 @@
+.header {
+  width: 100%;
+}
+
+.menu__toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.menu-toggle__settings {
+  padding: 10px;
+}
+
+.menu-toggle__text {
+  font-size: 12px;
+  color: var(--text-color);
+  text-decoration: none;
+}
