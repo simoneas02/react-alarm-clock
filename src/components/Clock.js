@@ -33,6 +33,7 @@ class Clock extends Component {
     
     this.setCurrentDay()
     this.showMenu()
+    this.activeButton()
   }
 
   setCurrentTime() {
@@ -71,14 +72,19 @@ class Clock extends Component {
       this.chronometerOff()
       this.alarm();
     }
-
   }
 
   chronometerOn() {
+    this.refs.btnOn.classList.add('button__is-active')
+    this.refs.btnOff.classList.remove('button__is-active')
+    
     this.setState({ on: true })
   }
   
   chronometerOff() {
+    this.refs.btnOn.classList.remove('button__is-active')
+    this.refs.btnOff.classList.add('button__is-active')
+
     this.setState({ on: false })
   }
 
@@ -104,7 +110,6 @@ class Clock extends Component {
           }
       }
   });
-
 
   function menuAction() {
     if(container.classList.contains('show-menu')){
@@ -154,8 +159,8 @@ class Clock extends Component {
             />
 
             <div className="button">
-              <button className="button__on-off" onClick={ this.chronometerOn.bind(this) }>on</button>
-              <button className="button__on-off" onClick={ this.chronometerOff.bind(this) }>off</button>
+              <button className="button__on-off" ref='btnOn' onClick={ this.chronometerOn.bind(this) }>on</button>
+              <button className="button__on-off" ref='btnOff' onClick={ this.chronometerOff.bind(this) }>off</button>
             </div>
           </main>
 
