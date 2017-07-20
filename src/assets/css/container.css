@@ -2,6 +2,7 @@
   --text-color: #ccc;
   --primary-color: #ee017c;
   --secondary-color: #323232;
+  --bg-color: #111;
   --internal-spacing: 10px;
 }
 
@@ -15,7 +16,7 @@ html, body {
 }
 
 body{
-  background: #111;
+  background: var(--bg-color);
 }
 
 .container {

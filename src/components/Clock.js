@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { formatDate } from './utils'
+import GithubCorner from 'react-github-corner'
 import Chronometer from './Chronometer'
 import Heart from './Heart'
 import '../assets/css/container.css'
@@ -147,6 +148,8 @@ class Clock extends Component {
               <img className='menu-toggle__settings' src='./assets/icons/settings.svg' alt='settings img' />
               <span className='menu-toggle__text'>Config</span>
             </button>
+
+            <GithubCorner octoColor='--bg-color' bannerColor='#ee017c' href="https://github.com/simoneas02/react-alarm-clock" />
           </header>
 
           <main className='main'>

@@ -42,7 +42,7 @@
 
   border: none;
   width: 50px;
-  background: #111;
+  background: var(--bg-color);
   cursor: pointer;
 }
 
