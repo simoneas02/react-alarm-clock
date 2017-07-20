@@ -3,7 +3,7 @@ import { formatDate } from './utils'
 import Chronometer from './Chronometer'
 import Heart from './Heart'
 import '../assets/css/container.css'
-import '../assets/css/aside.css'
+import '../assets/css/menu.css'
 import '../assets/css/header.css'
 import '../assets/css/main.css'
 import '../assets/css/footer.css'
@@ -33,7 +33,6 @@ class Clock extends Component {
     
     this.setCurrentDay()
     this.showMenu()
-    this.activeButton()
   }
 
   setCurrentTime() {
@@ -96,12 +95,12 @@ class Clock extends Component {
   }
 
   showMenu() {
-  const menuToggle = document.querySelectorAll('.menu__toggle')
-  const container = document.querySelector('.container');
+  const menu = this.refs.menu
+  const menuBtn = this.refs.menuBtn
+  const container = this.refs.container
 
-  menuToggle.forEach((el) => {
-    el.addEventListener('click', menuAction);
-  })
+  menu.addEventListener('click', menuAction);
+  menuBtn.addEventListener('click', menuAction);
 
   document.addEventListener('keyup', (e) => {
       if(e.keyCode === 27) {
@@ -124,63 +123,63 @@ class Clock extends Component {
   render() {
 
     return(
-      <div className= "container">
-        <div className="canvas">
+      <div className='container' ref='container'>
+        <div className='canvas'>
 
-          <aside className="menu">
-            <a href="#" className="menu__toggle menu__link">Alarm Clock ></a>
+          <aside className='menu'>
+            <button className='menu__button' ref='menuBtn'>Alarm Clock ></button>
 
-            <label className='menu__label' for='code-time'> Code Time </label>
-            <input className='menu__input' type="time" name='code-time' onChange={ this.setCodeTime.bind(this) }/>
+            <label className='menu__label'> Code Time </label>
+            <input className='menu__input' type='time' onChange={ this.setCodeTime.bind(this) }/>
             
-            <label className='menu__label' for='code-day'> Code Day </label>
-            <input className='menu__input' type="date" name='code-day' onChange={ this.setCodeDay.bind(this) }/>
+            <label className='menu__label'> Code Day </label>
+            <input className='menu__input' type='date' onChange={ this.setCodeDay.bind(this) }/>
 
-            <label className="menu__label">Code Sound</label>
-                <select className='menu__input' name="select">
-                  <option value="0">Choose a music</option> 
-                  <option value="epica">Epica</option>
+            <label className='menu__label'>Code Sound</label>
+                <select className='menu__input' name='select'>
+                  <option value='0'>Choose a music</option> 
+                  <option value='epica'>Epica</option>
                 </select>
           </aside>
 
-          <header className="header">
-            <a href="#" className="menu__toggle">
-              <img className="menu-toggle__settings" src="./assets/icons/settings.svg" alt="settings img" />
-              <span className="menu-toggle__text">Config</span>
-            </a>
+          <header className='header'>
+            <button className='menu__button' ref='menu'>
+              <img className='menu-toggle__settings' src='./assets/icons/settings.svg' alt='settings img' />
+              <span className='menu-toggle__text'>Config</span>
+            </button>
           </header>
 
-          <main className="main">
-            <p className="main__title">Timeleft for wake-up/code</p>
+          <main className='main'>
+            <p className='main__title'>Timeleft for wake-up/code</p>
             <Chronometer
               on={ this.state.on }
               codeTime={ this.state.codeTime }
               codeDay={ this.state.codeDay }
             />
 
-            <div className="button">
-              <button className="button__on-off" ref='btnOn' onClick={ this.chronometerOn.bind(this) }>on</button>
-              <button className="button__on-off" ref='btnOff' onClick={ this.chronometerOff.bind(this) }>off</button>
+            <div className='button'>
+              <button className='button__on-off' ref='btnOn' onClick={ this.chronometerOn.bind(this) }>on</button>
+              <button className='button__on-off' ref='btnOff' onClick={ this.chronometerOff.bind(this) }>off</button>
             </div>
           </main>
 
-          <footer className="footer">
+          <footer className='footer'>
             <div className='footer__clock'>
-              <div className="time">
-                <p className="time__title">Wake-up</p>
-                <time className="time__time">{ this.state.codeTime }</time>
-                <time className="time__date">{ this.state.codeDay }</time>
+              <div className='time'>
+                <p className='time__title'>Wake-up</p>
+                <time className='time__time'>{ this.state.codeTime }</time>
+                <time className='time__date'>{ this.state.codeDay }</time>
               </div>
 
-              <div className="time">
-                <p className="time__title">Code Sound</p>
+              <div className='time'>
+                <p className='time__title'>Code Sound</p>
                 <p>{ this.state.playList }</p>
               </div>
 
-              <div className="time">
-                <p className="time__title">Current Day/Time</p>
-                <time className="time__time">{ this.state.currentTime }</time>
-                <time className="time__date">{ this.state.currentDay }</time>
+              <div className='time'>
+                <p className='time__title'>Current Day/Time</p>
+                <time className='time__time'>{ this.state.currentTime }</time>
+                <time className='time__date'>{ this.state.currentDay }</time>
               </div>
             </div>
             <Heart />
