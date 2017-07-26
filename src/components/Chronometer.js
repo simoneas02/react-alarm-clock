@@ -29,7 +29,7 @@ class Chronometer extends Component {
       } else {
         this.defaultTimeLeft();
       }
-      
+
     },1000);
     
   }
@@ -46,7 +46,7 @@ class Chronometer extends Component {
   }
 
   codeDay() {
-    return getObjectDate(this.props.codeDay)
+    return getObjectDate(formatDate(this.props.codeDay))
   }
 
   currentDay() {
@@ -83,7 +83,7 @@ class Chronometer extends Component {
     const timeHasPassed = (isToday && (this.codeTimeSeconds() - this.currentTimeSeconds() < 0))
 
     if(dateHasPassed || timeHasPassed) {
-      console.log(`${this.props.codeDay} ou ${this.props.codeTime} é menor que a data ou hora atual`);
+    (`${this.props.codeDay} ou ${this.props.codeTime} é menor que a data ou hora atual`);
     }
   }
   

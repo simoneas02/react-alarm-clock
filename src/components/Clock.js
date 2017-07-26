@@ -52,21 +52,23 @@ class Clock extends Component {
   setCodeTime(event) {
     event.preventDefault();
     const codeTime = event.target.value + ':00'
-    console.log(codeTime)
     this.setState({ codeTime: codeTime })
   }
 
   setCodeDay(event) {
-    const day = event.target.value;
-    
+    const codeDay = event.target.value;
+
+    const [year, month, day] = codeDay.split("-");
+    const dateFormated = `${day}/${month}/${year}`;
+
     this.setState({
-      codeDay: day
+      codeDay: dateFormated
     })
   }
 
   checkAlarmClock() {
     const isTimeToCode = this.state.currentTime === this.state.codeTime
-    const isDayToCode = formatDate(this.state.currentDay) === this.state.codeDay
+    const isDayToCode = formatDate(this.state.currentDay) === formatDate(this.state.codeDay)
 
     if(isDayToCode && isTimeToCode) {
       this.chronometerOff()
