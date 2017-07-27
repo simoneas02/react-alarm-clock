@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { formatDate } from './utils'
+import { formatDate, formatToSeconds } from './utils'
 import GithubCorner from 'react-github-corner'
 import Chronometer from './Chronometer'
 import Heart from './Heart'
@@ -25,7 +25,7 @@ class Clock extends Component {
 
   componentDidMount() {
     
-    setInterval(() => {
+    this.interval = setInterval(() => {
         
         this.checkAlarmClock()
         this.setCurrentTime()
@@ -73,13 +73,14 @@ class Clock extends Component {
     if(isDayToCode && isTimeToCode) {
       this.chronometerOff()
       this.alarm();
+      clearInterval(this.interval)
     }
   }
 
   chronometerOn() {
     this.refs.btnOn.classList.add('button__is-active')
     this.refs.btnOff.classList.remove('button__is-active')
-    
+
     this.setState({ on: true })
   }
   
@@ -88,6 +89,7 @@ class Clock extends Component {
     this.refs.btnOff.classList.add('button__is-active')
 
     this.setState({ on: false })
+    clearInterval(this.interval)
   }
 
   alarm() {
