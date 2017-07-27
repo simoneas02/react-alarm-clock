@@ -15,25 +15,22 @@ class Clock extends Component {
     super(props);
     this.state = {
       currentTime: '',
-      codeTime: 'hh:mm',
+      codeTime: '',
       currentDay: '',
-      codeDay: 'dd/mm/aaaa',
+      codeDay: '',
       on: false,
-      playList: 'Choose a music in the Settings'
+      playList: ''
     };
   }
 
   componentDidMount() {
     
-    this.interval = setInterval(() => {
-        
-        this.checkAlarmClock()
-        this.setCurrentTime()
-
-    } ,1000)
+    this.interval = setInterval(() => { this.checkAlarmClock() }, 1000)
+    setInterval(() => { this.setCurrentTime() }, 1000)
     
     this.setCurrentDay()
     this.showMenu()
+    this.defaultAlarm()
   }
 
   setCurrentTime() {
@@ -72,8 +69,8 @@ class Clock extends Component {
 
     if(isDayToCode && isTimeToCode) {
       this.chronometerOff()
+      this.defaultAlarm()
       this.alarm();
-      clearInterval(this.interval)
     }
   }
 
@@ -81,6 +78,7 @@ class Clock extends Component {
     this.refs.btnOn.classList.add('button__is-active')
     this.refs.btnOff.classList.remove('button__is-active')
 
+    this.clearAlarme()
     this.setState({ on: true })
   }
   
@@ -89,7 +87,7 @@ class Clock extends Component {
     this.refs.btnOff.classList.add('button__is-active')
 
     this.setState({ on: false })
-    clearInterval(this.interval)
+    //clearInterval(this.interval)
   }
 
   alarm() {
@@ -97,6 +95,18 @@ class Clock extends Component {
     let playSong = new Audio('assets/songs/EPICA-Cry For The Moon www.myfreemp3.click .mp3');
     playSong.play();
 
+  }
+
+  defaultAlarm() {
+    this.setState({ codeTime: 'hh:mm' })
+    this.setState({ codeDay: 'dd/mm/aaaa' })
+    this.setState({ playList: 'Choose a music in the Settings' })
+  }
+
+  clearAlarme() {
+    this.refs.inputTime.value = ''
+    this.refs.inputDate.value = ''
+    this.refs.inputSound.options.selectedIndex = this.refs.inputSound.options[0].value
   }
 
   showMenu() {
@@ -135,15 +145,15 @@ class Clock extends Component {
             <button className='menu__button' ref='menuBtn'>Alarm Clock ></button>
 
             <label className='menu__label'> Code Time </label>
-            <input className='menu__input' type='time' onChange={ this.setCodeTime.bind(this) }/>
+            <input className='menu__input' ref='inputTime' type='time' onChange={ this.setCodeTime.bind(this) }/>
             
             <label className='menu__label'> Code Day </label>
-            <input className='menu__input' type='date' onChange={ this.setCodeDay.bind(this) }/>
+            <input className='menu__input' ref='inputDate' type='date' onChange={ this.setCodeDay.bind(this) }/>
 
             <label className='menu__label'>Code Sound</label>
-                <select className='menu__input' name='select'>
-                  <option value='0'>Choose a music</option> 
-                  <option value='epica'>Epica</option>
+                <select className='menu__input' ref='inputSound' name='select'>
+                  <option>Choose a music</option> 
+                  <option>Epica</option>
                 </select>
           </aside>
 
