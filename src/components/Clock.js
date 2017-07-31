@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { formatDate, formatToSeconds } from './utils'
+import { formatDate } from './utils'
 import GithubCorner from 'react-github-corner'
 import Chronometer from './Chronometer'
 import Heart from './Heart'
@@ -19,7 +19,8 @@ class Clock extends Component {
       currentDay: '',
       codeDay: '',
       on: false,
-      playList: ''
+      playList: '',
+      playSong: false
     };
   }
 
@@ -70,6 +71,7 @@ class Clock extends Component {
     if(isDayToCode && isTimeToCode) {
       this.chronometerOff()
       this.defaultAlarm()
+      this.setPlayList()
       this.alarm();
     }
   }
@@ -78,6 +80,7 @@ class Clock extends Component {
     this.refs.btnOn.classList.add('button__is-active')
     this.refs.btnOff.classList.remove('button__is-active')
 
+    this.setPlayList()
     this.clearAlarme()
     this.setState({ on: true })
   }
@@ -87,20 +90,51 @@ class Clock extends Component {
     this.refs.btnOff.classList.add('button__is-active')
 
     this.setState({ on: false })
-    //clearInterval(this.interval)
   }
 
   alarm() {
+    const song = this.state.playList
+    let playSong;
 
-    let playSong = new Audio('assets/songs/EPICA-Cry For The Moon www.myfreemp3.click .mp3');
-    playSong.play();
-
+      switch(song) {
+        case "Epica":
+          playSong = new Audio('assets/songs/EPICA-Cry For The Moon.mp3')
+          playSong.play()
+          break
+        case "Guns N' Roses":
+          playSong = new Audio('assets/songs/Guns N Roses - Welcome To The Jungle.mp3')
+          playSong.play()
+          break
+        case "Queens Of The Stone Age":
+          playSong = new Audio('assets/songs/Queens Of The Stone Age - No One Knows.mp3')
+          playSong.play()
+          break
+        default:
+          break
+      }
   }
 
   defaultAlarm() {
     this.setState({ codeTime: 'hh:mm' })
     this.setState({ codeDay: 'dd/mm/aaaa' })
-    this.setState({ playList: 'Choose a music in the Settings' })
+  }
+
+  setPlayList() {
+    let song = this.refs.inputSound.options.selectedIndex
+
+    switch(song) {
+        case 1:
+          this.setState({ playList: this.refs.inputSound.options[1].value })
+          break
+        case 2:
+          this.setState({ playList: this.refs.inputSound.options[2].value })
+          break
+        case 3:
+          this.setState({ playList: this.refs.inputSound.options[3].value })
+          break
+        default:
+          break
+      }
   }
 
   clearAlarme() {
@@ -154,6 +188,8 @@ class Clock extends Component {
                 <select className='menu__input' ref='inputSound' name='select'>
                   <option>Choose a music</option> 
                   <option>Epica</option>
+                  <option>Guns N' Roses</option>
+                  <option>Queens Of The Stone Age</option>
                 </select>
           </aside>
 
@@ -176,7 +212,7 @@ class Clock extends Component {
 
             <div className='button'>
               <button className='button__on-off' ref='btnOn' onClick={ this.chronometerOn.bind(this) }>on</button>
-              <button className='button__on-off' ref='btnOff' onClick={ this.chronometerOff.bind(this) }>off</button>
+              <button className='button__on-off button__is-active' ref='btnOff' onClick={ this.chronometerOff.bind(this) }>off</button>
             </div>
           </main>
 
@@ -190,7 +226,7 @@ class Clock extends Component {
 
               <div className='time'>
                 <p className='time__title'>Code Sound</p>
-                <p>{ this.state.playList }</p>
+                <p className='time__time'>{ this.state.playList }</p>
               </div>
 
               <div className='time'>
