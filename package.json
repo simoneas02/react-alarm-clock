@@ -8,14 +8,15 @@
     "react-github-corner": "^0.3.0"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.21.0",
     "@storybook/cli": "^3.1.6",
     "chai": "^4.0.2",
     "enzyme": "^2.8.2",
+    "gh-pages": "^1.0.0",
     "react-dom": "^15.5.4",
     "react-scripts": "0.9.5",
     "react-test-renderer": "^15.5.4",
-    "sinon": "^2.3.4",
-    "@kadira/storybook": "^2.21.0"
+    "sinon": "^2.3.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -23,6 +24,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "deploy": "gh-pages -d ./build"
   }
 }
