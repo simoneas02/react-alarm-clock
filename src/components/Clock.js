@@ -19,8 +19,7 @@ class Clock extends Component {
       currentDay: '',
       codeDay: '',
       on: false,
-      playList: '',
-      playSong: false
+      playList: ''
     };
   }
 
@@ -28,7 +27,8 @@ class Clock extends Component {
     
     this.interval = setInterval(() => { this.checkAlarmClock() }, 1000)
     setInterval(() => { this.setCurrentTime() }, 1000)
-    
+
+    this.setState({ playList: 'Choose the music in settings' })
     this.setCurrentDay()
     this.showMenu()
     this.defaultAlarm()
@@ -69,7 +69,6 @@ class Clock extends Component {
     const isDayToCode = formatDate(this.state.currentDay) === formatDate(this.state.codeDay)
 
     if(isDayToCode && isTimeToCode) {
-      this.chronometerOff()
       this.defaultAlarm()
       this.setPlayList()
       this.alarm();
@@ -84,30 +83,36 @@ class Clock extends Component {
     this.clearAlarme()
     this.setState({ on: true })
   }
+
+  stopChronometer() {
+    this.alarm(false);
+  }
   
   chronometerOff() {
     this.refs.btnOn.classList.remove('button__is-active')
     this.refs.btnOff.classList.add('button__is-active')
+    this.setState({ playList: 'Choose the music in settings' })
 
+    this.playSong.pause();
+    this.playSong.currentTime = 0;
     this.setState({ on: false })
   }
 
   alarm() {
     const song = this.state.playList
-    let playSong;
 
       switch(song) {
         case "Epica":
-          playSong = new Audio('assets/songs/EPICA-Cry For The Moon.mp3')
-          playSong.play()
+          this.playSong = new Audio('assets/songs/EPICA-Cry For The Moon.mp3')
+          this.playSong.play()
           break
         case "Guns N' Roses":
-          playSong = new Audio('assets/songs/Guns N Roses - Welcome To The Jungle.mp3')
-          playSong.play()
+          this.playSong = new Audio('assets/songs/Guns N Roses - Welcome To The Jungle.mp3')
+          this.playSong.play()
           break
         case "Queens Of The Stone Age":
-          playSong = new Audio('assets/songs/Queens Of The Stone Age - No One Knows.mp3')
-          playSong.play()
+          this.playSong = new Audio('assets/songs/Queens Of The Stone Age - No One Knows.mp3')
+          this.playSong.play()
           break
         default:
           break

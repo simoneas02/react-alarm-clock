@@ -18,6 +18,7 @@
     "react-test-renderer": "^15.5.4",
     "sinon": "^2.3.4"
   },
+  "homepage": "https://simoneas02.github.io/react-alarm-clock/",  
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
