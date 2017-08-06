@@ -19,7 +19,8 @@ class Clock extends Component {
       currentDay: '',
       codeDay: '',
       on: false,
-      playList: ''
+      playList: '',
+      open: false
     };
   }
 
@@ -30,8 +31,8 @@ class Clock extends Component {
 
     this.setState({ playList: 'Choose the music in settings' })
     this.setCurrentDay()
-    this.showMenu()
     this.defaultAlarm()
+    this.playSong
   }
 
   setCurrentTime() {
@@ -75,29 +76,6 @@ class Clock extends Component {
     }
   }
 
-  chronometerOn() {
-    this.refs.btnOn.classList.add('button__is-active')
-    this.refs.btnOff.classList.remove('button__is-active')
-
-    this.setPlayList()
-    this.clearAlarme()
-    this.setState({ on: true })
-  }
-
-  stopChronometer() {
-    this.alarm(false);
-  }
-  
-  chronometerOff() {
-    this.refs.btnOn.classList.remove('button__is-active')
-    this.refs.btnOff.classList.add('button__is-active')
-    this.setState({ playList: 'Choose the music in settings' })
-
-    this.playSong.pause();
-    this.playSong.currentTime = 0;
-    this.setState({ on: false })
-  }
-
   alarm() {
     const song = this.state.playList
 
@@ -117,6 +95,23 @@ class Clock extends Component {
         default:
           break
       }
+  }
+
+  chronometerOn() {
+    this.setPlayList()
+    this.clearAlarme()
+    this.setState({ on: true })
+  }
+
+  stopChronometer() {
+    this.alarm(false)
+  }
+  
+  chronometerOff() {
+    this.setState({ playList: 'Choose the music in settings' })
+    this.playSong.pause()
+    this.playSong.currentTime = 0
+    this.setState({ on: false })
   }
 
   defaultAlarm() {
@@ -148,40 +143,42 @@ class Clock extends Component {
     this.refs.inputSound.options.selectedIndex = this.refs.inputSound.options[0].value
   }
 
-  showMenu() {
-  const menu = this.refs.menu
-  const menuBtn = this.refs.menuBtn
-  const container = this.refs.container
-
-  menu.addEventListener('click', menuAction);
-  menuBtn.addEventListener('click', menuAction);
-
-  document.addEventListener('keyup', (e) => {
-      if(e.keyCode === 27) {
-          if(container.classList.contains('show-menu')){
-              menuAction();
-          }
-      }
-  });
-
-  function menuAction() {
-    if(container.classList.contains('show-menu')){
-        container.classList.remove('show-menu');
-    }
-    else {
-        container.classList.add('show-menu');
-    }
+  openOn() {
+    this.setState({open: true})
   }
-}
+
+  openOff() {
+    this.setState({open: false})
+  } 
 
   render() {
+    // active button
+    let btnOn
+    let btnOff
+
+    if(this.state.on) {
+      btnOn = 'button__is-active'
+      btnOff = ''
+    } else {
+      btnOn = ''
+      btnOff = 'button__is-active'
+    }
+
+    // show menu
+    let showMenu
+
+    if(this.state.open) {
+      showMenu = 'show-menu'
+    } else {
+      showMenu = ''
+    }
 
     return(
-      <div className='container' ref='container'>
+      <div className = {`container ${showMenu}`} ref='container'>
         <div className='canvas'>
 
           <aside className='menu'>
-            <button className='menu__button' ref='menuBtn'>Alarm Clock ></button>
+            <button className='menu__button' onClick = {this.openOff.bind(this)}>Alarm Clock ></button>
 
             <label className='menu__label'> Code Time </label>
             <input className='menu__input' ref='inputTime' type='time' onChange={ this.setCodeTime.bind(this) }/>
@@ -199,7 +196,7 @@ class Clock extends Component {
           </aside>
 
           <header className='header'>
-            <button className='menu__button' ref='menu'>
+            <button className='menu__button' onClick = {this.openOn.bind(this)}>
               <img className='menu-toggle__settings' src='./assets/icons/settings.svg' alt='settings img' />
               <span className='menu-toggle__text'>Config</span>
             </button>
@@ -216,8 +213,8 @@ class Clock extends Component {
             />
 
             <div className='button'>
-              <button className='button__on-off' ref='btnOn' onClick={ this.chronometerOn.bind(this) }>on</button>
-              <button className='button__on-off button__is-active' ref='btnOff' onClick={ this.chronometerOff.bind(this) }>off</button>
+              <button className= {`button__on-off ${btnOn}`} onClick={ this.chronometerOn.bind(this) }>on</button>
+              <button className= {`button__on-off ${btnOff}`} onClick={ this.chronometerOff.bind(this) }>off</button>
             </div>
           </main>
 
