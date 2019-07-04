@@ -16,7 +16,7 @@
     "react-dom": "15.6.2",
     "react-scripts": "0.9.5",
     "react-test-renderer": "15.6.2",
-    "sinon": "2.4.1"
+    "sinon": "7.3.2"
   },
   "homepage": "https://simoneas02.github.io/react-alarm-clock/",  
   "scripts": {
