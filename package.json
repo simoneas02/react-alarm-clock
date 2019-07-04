@@ -14,7 +14,7 @@
     "enzyme": "^2.8.2",
     "gh-pages": "^1.0.0",
     "react-dom": "^15.5.4",
-    "react-scripts": "0.9.5",
+    "react-scripts": "3.0.1",
     "react-test-renderer": "^15.5.4",
     "sinon": "^2.3.4"
   },
