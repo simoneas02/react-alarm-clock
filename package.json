@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@kadira/storybook": "2.35.3",
-    "@storybook/cli": "3.4.12",
+    "@storybook/cli": "5.1.9",
     "chai": "4.2.0",
     "enzyme": "2.9.1",
     "gh-pages": "1.2.0",
